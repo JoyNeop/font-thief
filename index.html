@@ -41,7 +41,7 @@
 		padding: 8px 0;
 		display: block;
 		width: 50%;
-		margin: 0 auto;
+		margin: 0 auto 20px;
 	}
 	#figures img {
 		/*max-height: 70px;*/
@@ -52,7 +52,19 @@
 </head>
 <body>
 	<div class="cont">
-		<input id="in" type="text" value="42" class="big-input">
+		<div>
+			<input id="in" type="text" value="42" class="big-input" autofocus>
+		</div>
+		<div>
+			<select id="select" name="select">
+				<option id="option-myriadpro" value="myriadpro">Myriad Pro</option>
+				<option id="option-libertad" value="libertad">Libertad</option>
+				<option id="option-klavika" value="klavika">Klavika</option>
+				<option id="option-marine" value="marine">Marine</option>
+				<option id="option-erato" value="erato">Erato</option>
+				<option id="option-rdromansketch" value="rdromansketch">LD Roman Sketch</option>
+			</select>
+		</div>
 	</div>
 	<div class="cont">
 		<div id="figures">
@@ -60,10 +72,8 @@
 	</div>
 
 	<script type="text/javascript">
-	var allFonts = ['libertad','klavika','rdromansketch'];
-	var font = allFonts[2];
 
-	var provideIMG = function (num) {
+	var provideIMG = function (num, font) {
 		var percnetSymbolHTML = '<img src="./FONT/percent.png">'.replace(/FONT/, font);
 		if (num.toString().match(/^\d+$/) && num.toString().length < 6) {
 			var arr = num.toString().split('');
@@ -76,12 +86,22 @@
 			return '<img src="./FONT/0.png">'.replace(/FONT/, font) + percnetSymbolHTML;
 		}
 	};
+
+	var updateFont = function () {
+		localStorage['jn-fontthief-font'] = document.getElementById('select').value;
+	};
+
 	var updateNumbers = function () {
-		document.getElementById('figures').innerHTML = provideIMG(Number(document.getElementById('in').value));
+		// localStorage['jn-fontthief-font'] = localStorage['jn-fontthief-font'] ? localStorage['jn-fontthief-font'] : 'myriadpro';
+		var font = localStorage['jn-fontthief-font'] ? localStorage['jn-fontthief-font'] : document.getElementById('select').value;
+		updateFont();
+		document.getElementById('figures').innerHTML = provideIMG(Number(document.getElementById('in').value), font);
 	};
 	updateNumbers();
 
 	document.getElementById('in').addEventListener('input', updateNumbers, false);
+	document.getElementById('select').addEventListener('change', updateFont, false);
+	document.getElementById('select').addEventListener('change', updateNumbers, false);
 	</script>
 </body>
 </html>
