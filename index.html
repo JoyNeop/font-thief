@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>UA Info</title>
+	<link rel="shortcut icon" href="/favicon.ico">
+	<link rel="apple-touch-icon" href="/joyneop.png">
+	<style type="text/css">
+	@import url(/fonts/seravek.css);
+	@import url(/fonts/font-awesome.css);
+	* {
+		text-rendering: optimizeLegibility;
+		box-sizing: border-box;
+	}
+	body {
+		font-family: Seravek, 'Myriad Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+		font-weight: 300;
+		font-size: 16px;
+		color: #333;
+		background: #FFF;
+		padding: 0;
+		margin: 0;
+	}
+	.cont {
+		text-align: center;
+
+		width: 80%;
+		min-width: 320px;
+		max-width: 800px;
+		padding: 60px 0 80px;
+		margin: 0 auto;
+	}
+	.big-input {
+		font-family: inherit;
+		font-size: 60px;
+		text-align: center;
+		border: 1px solid #CCC;
+		border-radius: 3px;
+		outline: none;
+
+		padding: 8px 0;
+		display: block;
+		width: 50%;
+		margin: 0 auto;
+	}
+	#figures img {
+		/*max-height: 70px;*/
+		zoom: 0.25;
+		margin: 0 12px;
+	}
+	</style>
+</head>
+<body>
+	<div class="cont">
+		<input id="in" type="text" value="42" class="big-input">
+	</div>
+	<div class="cont">
+		<div id="figures">
+		</div>
+	</div>
+
+	<script type="text/javascript">
+	var allFonts = ['libertad','klavika','rdromansketch'];
+	var font = allFonts[2];
+
+	var provideIMG = function (num) {
+		var percnetSymbolHTML = '<img src="./FONT/percent.png">'.replace(/FONT/, font);
+		if (num.toString().match(/^\d+$/) && num.toString().length < 6) {
+			var arr = num.toString().split('');
+			var tmpHTML = '';
+			arr.forEach(function(v,i,a){
+				tmpHTML += '<img src="./FONT/NUMBER.png">'.replace(/FONT/, font).replace(/NUMBER/, v);
+			});
+			return tmpHTML + percnetSymbolHTML;
+		} else {
+			return '<img src="./FONT/0.png">'.replace(/FONT/, font) + percnetSymbolHTML;
+		}
+	};
+	var updateNumbers = function () {
+		document.getElementById('figures').innerHTML = provideIMG(Number(document.getElementById('in').value));
+	};
+	updateNumbers();
+
+	document.getElementById('in').addEventListener('input', updateNumbers, false)
+	</script>
+</body>
+</html>
